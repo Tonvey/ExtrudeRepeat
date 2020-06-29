@@ -113,11 +113,15 @@ void MainWindow::convert(QString imageFileName, QString jsonFileName)
         QPoint bottomLeft(x,y+h);
         QPoint bottomRight(x+w,y+h);
 
+        //Base on the 5 zone (numpad) to extrude repeat
+        //  | 7 | 8 | 9 |
+        //  | 4 | 5 | 6 |
+        //  | 1 | 2 | 3 |
         //zone1
         QPoint offset,refOffset;
-        offset = QPoint(bottomLeft.x() - this->exturde,bottomLeft.y());
-        refOffset = QPoint(topRight.x() - this->exturde,topRight.y());
-        for(int stepX = 0 ; stepX < this->exturde;++stepX)
+        offset = QPoint(bottomLeft.x(),bottomLeft.y());
+        refOffset = QPoint(topRight.x(),topRight.y());
+        for(int stepX = -1 ; stepX >= -this->exturde;--stepX)
         {
             for(int stepY = 0 ; stepY < this->exturde ; ++stepY)
             {
@@ -129,7 +133,6 @@ void MainWindow::convert(QString imageFileName, QString jsonFileName)
                             stepY + offset.y(),
                             color);
             }
-
         }
         //zone2
         offset = QPoint(bottomLeft.x(),bottomLeft.y());
@@ -164,9 +167,9 @@ void MainWindow::convert(QString imageFileName, QString jsonFileName)
             }
         }
         //zone4
-        offset = QPoint(x-this->exturde,y);
-        refOffset = QPoint(topRight.x()-this->exturde,y);
-        for(int stepX = 0 ; stepX < this->exturde;++stepX)
+        offset = QPoint(x,y);
+        refOffset = QPoint(topRight.x(),y);
+        for(int stepX = -1 ; stepX >= -this->exturde;--stepX)
         {
             for(int stepY = 0 ; stepY < h ; ++stepY)
             {
@@ -196,11 +199,11 @@ void MainWindow::convert(QString imageFileName, QString jsonFileName)
             }
         }
         //zone7
-        offset = QPoint(topLeft.x()-this->exturde,topLeft.y()-this->exturde);
-        refOffset = QPoint(bottomRight.x()-this->exturde,bottomRight.y()-this->exturde);
-        for(int stepX = 0 ; stepX < this->exturde;++stepX)
+        offset = QPoint(topLeft.x(),topLeft.y());
+        refOffset = QPoint(bottomRight.x(),bottomRight.y()-this->exturde);
+        for(int stepX = -1 ; stepX >= -this->exturde;--stepX)
         {
-            for(int stepY = 0 ; stepY < this->exturde ; ++stepY)
+            for(int stepY = -1 ; stepY >= -this->exturde ; --stepY)
             {
                 QColor color = image.pixelColor(
                             stepX + refOffset.x(),
@@ -213,11 +216,11 @@ void MainWindow::convert(QString imageFileName, QString jsonFileName)
 
         }
         //zone8
-        offset = QPoint(topLeft.x(),topLeft.y()-this->exturde);
-        refOffset = QPoint(bottomLeft.x(),bottomLeft.y()-this->exturde);
+        offset = QPoint(topLeft.x(),topLeft.y());
+        refOffset = QPoint(bottomLeft.x(),bottomLeft.y());
         for(int stepX = 0 ; stepX < w;++stepX)
         {
-            for(int stepY = 0 ; stepY < this->exturde ; ++stepY)
+            for(int stepY = -1 ; stepY >= -this->exturde ; --stepY)
             {
                 QColor color = image.pixelColor(
                             stepX + refOffset.x(),
@@ -233,7 +236,7 @@ void MainWindow::convert(QString imageFileName, QString jsonFileName)
         refOffset = QPoint(bottomLeft.x(),bottomLeft.y());
         for(int stepX = 0 ; stepX < this->exturde;++stepX)
         {
-            for(int stepY = 0 ; stepY < this->exturde ; ++stepY)
+            for(int stepY = -1 ; stepY >= -this->exturde ; --stepY)
             {
                 QColor color = image.pixelColor(
                             stepX + refOffset.x(),
