@@ -33,7 +33,7 @@
       <x>230</x>
       <y>150</y>
       <width>268</width>
-      <height>72</height>
+      <height>91</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
@@ -44,13 +44,6 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEdit_image">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="2">
       <widget class="QPushButton" name="pushButton_image_browse">
        <property name="text">
@@ -58,10 +51,10 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_json">
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="lineEdit_image">
        <property name="text">
-        <string>Json:</string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -76,6 +69,27 @@
       <widget class="QPushButton" name="pushButton_json_browse">
        <property name="text">
         <string>浏览</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_json">
+       <property name="text">
+        <string>Json:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_extrude">
+       <property name="text">
+        <string>Extrude:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="lineEdit_extrude">
+       <property name="text">
+        <string>10</string>
        </property>
       </widget>
      </item>

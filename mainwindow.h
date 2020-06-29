@@ -26,7 +26,7 @@ private:
     Ui::MainWindow *ui;
     QString imageFileName;
     QString jsonFileName;
-    int exturde = 10;
+    uint exturde;
 
 private:
     void convert(QString imageFileName,QString jsonFileName);

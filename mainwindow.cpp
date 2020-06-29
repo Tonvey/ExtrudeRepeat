@@ -255,6 +255,15 @@ void MainWindow::on_pushButton_convert_clicked()
 {
     this->imageFileName = this->ui->lineEdit_image->text();
     this->jsonFileName = this->ui->lineEdit_json->text();
+    QString strExtrude = this->ui->lineEdit_extrude->text();
+    bool canConvertExtrude;
+    this->exturde = strExtrude.toUInt(&canConvertExtrude);
+    if(!canConvertExtrude)
+    {
+        QMessageBox::critical(this,"Error","Can not convert extrude string to uint : "+strExtrude);
+        return;
+    }
+
     if(this->imageFileName.isEmpty()||this->jsonFileName.isEmpty())
     {
         QMessageBox::critical(this,"Error","Please choose image file and json file!");
