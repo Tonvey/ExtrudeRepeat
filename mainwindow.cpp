@@ -200,7 +200,7 @@ void MainWindow::convert(QString imageFileName, QString jsonFileName)
         }
         //zone7
         offset = QPoint(topLeft.x(),topLeft.y());
-        refOffset = QPoint(bottomRight.x(),bottomRight.y()-this->exturde);
+        refOffset = QPoint(bottomRight.x(),bottomRight.y());
         for(int stepX = -1 ; stepX >= -this->exturde;--stepX)
         {
             for(int stepY = -1 ; stepY >= -this->exturde ; --stepY)
@@ -248,7 +248,7 @@ void MainWindow::convert(QString imageFileName, QString jsonFileName)
             }
         }
     }
-    image.save("/Users/liangboyan/Desktop/texture.png");
+    image.save(imageFileName);
 }
 
 void MainWindow::on_pushButton_convert_clicked()
