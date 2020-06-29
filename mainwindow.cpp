@@ -117,43 +117,11 @@ void MainWindow::convert(QString imageFileName, QString jsonFileName)
         //  | 7 | 8 | 9 |
         //  | 4 | 5 | 6 |
         //  | 1 | 2 | 3 |
-        //zone1
         QPoint offset,refOffset;
-        offset = QPoint(bottomLeft.x(),bottomLeft.y());
-        refOffset = QPoint(topRight.x(),topRight.y());
-        for(int stepX = -1 ; stepX >= -this->exturde;--stepX)
-        {
-            for(int stepY = 0 ; stepY < this->exturde ; ++stepY)
-            {
-                QColor color = image.pixelColor(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixelColor(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            color);
-            }
-        }
         //zone2
         offset = QPoint(bottomLeft.x(),bottomLeft.y());
         refOffset = QPoint(topLeft.x(),topLeft.y());
         for(int stepX = 0 ; stepX < w;++stepX)
-        {
-            for(int stepY = 0 ; stepY < this->exturde ; ++stepY)
-            {
-                QColor color = image.pixelColor(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixelColor(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            color);
-            }
-        }
-        //zone3
-        offset = QPoint(bottomRight.x(),bottomRight.y());
-        refOffset = QPoint(topLeft.x(),topLeft.y());
-        for(int stepX = 0 ; stepX < this->exturde;++stepX)
         {
             for(int stepY = 0 ; stepY < this->exturde ; ++stepY)
             {
@@ -198,6 +166,54 @@ void MainWindow::convert(QString imageFileName, QString jsonFileName)
                             color);
             }
         }
+        //zone8
+        offset = QPoint(topLeft.x(),topLeft.y());
+        refOffset = QPoint(bottomLeft.x(),bottomLeft.y());
+        for(int stepX = 0 ; stepX < w;++stepX)
+        {
+            for(int stepY = -1 ; stepY >= -this->exturde ; --stepY)
+            {
+                QColor color = image.pixelColor(
+                            stepX + refOffset.x(),
+                            stepY + refOffset.y());
+                image.setPixelColor(
+                            stepX + offset.x(),
+                            stepY + offset.y(),
+                            color);
+            }
+        }
+        //zone1
+        offset = QPoint(bottomLeft.x(),bottomLeft.y());
+        refOffset = QPoint(topRight.x(),topRight.y());
+        for(int stepX = -1 ; stepX >= -this->exturde;--stepX)
+        {
+            for(int stepY = 0 ; stepY < this->exturde ; ++stepY)
+            {
+                QColor color = image.pixelColor(
+                            stepX + refOffset.x(),
+                            stepY + refOffset.y());
+                image.setPixelColor(
+                            stepX + offset.x(),
+                            stepY + offset.y(),
+                            color);
+            }
+        }
+        //zone3
+        offset = QPoint(bottomRight.x(),bottomRight.y());
+        refOffset = QPoint(topLeft.x(),topLeft.y());
+        for(int stepX = 0 ; stepX < this->exturde;++stepX)
+        {
+            for(int stepY = 0 ; stepY < this->exturde ; ++stepY)
+            {
+                QColor color = image.pixelColor(
+                            stepX + refOffset.x(),
+                            stepY + refOffset.y());
+                image.setPixelColor(
+                            stepX + offset.x(),
+                            stepY + offset.y(),
+                            color);
+            }
+        }
         //zone7
         offset = QPoint(topLeft.x(),topLeft.y());
         refOffset = QPoint(bottomRight.x(),bottomRight.y());
@@ -214,22 +230,6 @@ void MainWindow::convert(QString imageFileName, QString jsonFileName)
                             color);
             }
 
-        }
-        //zone8
-        offset = QPoint(topLeft.x(),topLeft.y());
-        refOffset = QPoint(bottomLeft.x(),bottomLeft.y());
-        for(int stepX = 0 ; stepX < w;++stepX)
-        {
-            for(int stepY = -1 ; stepY >= -this->exturde ; --stepY)
-            {
-                QColor color = image.pixelColor(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixelColor(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            color);
-            }
         }
         //zone9
         offset = QPoint(topRight.x(),topRight.y());
