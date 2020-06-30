@@ -14,6 +14,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void convert(QString imageFileName,QString jsonFileName,
+         QString imageOutputFileName,QString jsonOutputFileName,int extrude);
 
 private slots:
     void on_pushButton_image_browse_clicked();
@@ -24,13 +26,9 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QString imageFileName;
-    QString jsonFileName;
-    uint exturde;
 
 private:
-    void convert(QString imageFileName,QString jsonFileName);
-
+    void replaceExtrude(QImage &image,QPoint topLeft,QPoint topRight,QPoint bottomLeft,QPoint bottomRight,int extrude);
 
 };
 #endif // MAINWINDOW_H
