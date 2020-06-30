@@ -14,7 +14,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void convert(QString imageFileName,QString jsonFileName,
+    int convert(QString imageFileName,QString jsonFileName,
          QString imageOutputFileName,QString jsonOutputFileName,int extrude);
 
 private slots:

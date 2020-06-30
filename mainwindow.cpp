@@ -213,27 +213,47 @@ void MainWindow::replaceExtrude(QImage &image,QPoint topLeft,
     }
 }
 
-void MainWindow::convert(QString imageFileName, QString jsonFileName,
+int MainWindow::convert(QString imageFileName, QString jsonFileName,
                          QString imageOutputFileName,QString jsonOutputFileName,int extrude)
 {
+    qDebug().noquote()<<"=======================================";
     qDebug().noquote()<<"Begin convert:";
     qDebug().noquote()<<"Input image:"<<imageFileName;
     qDebug().noquote()<<"Input json:"<<jsonFileName;
     qDebug().noquote()<<"Output image:"<<imageOutputFileName;
     qDebug().noquote()<<"Output json:"<<jsonOutputFileName;
     qDebug().noquote()<<"exturde:"<<extrude;
+    qDebug().noquote()<<"=======================================";
+
+    QFileInfo imageFileInfo(imageFileName);
+    QFileInfo jsonFileInfo(jsonFileName);
+    if(!imageFileInfo.isFile())
+    {
+        qCritical()<<"Input image:"<<imageFileName << "is not a file";
+        return -1;
+    }
+    if(!jsonFileInfo.isFile())
+    {
+        qCritical()<<"Input json:"<<jsonFileName << "is not a file";
+        return -1;
+    }
 
     QFile jsonFile(jsonFileName);
     jsonFile.open(QFile::ReadOnly);
+
     QByteArray jsonContent = jsonFile.readAll();
     jsonFile.close();
     QJsonParseError err;
     QJsonDocument doc = QJsonDocument::fromJson(jsonContent,&err);
     if(err.error!=QJsonParseError::NoError)
     {
-        QMessageBox::critical(this,"Parse Error!",
-                              "Can not parse json , error : " + err.errorString());
-        return;
+        qCritical()<<"Can not parse json , error : " << err.errorString();
+        if(!this->isHidden())
+        {
+            QMessageBox::critical(this,"Parse Error!",
+                  "Can not parse json , error : " + err.errorString());
+        }
+        return -1;
     }
 
     QJsonObject obj = doc.object();
@@ -241,9 +261,10 @@ void MainWindow::convert(QString imageFileName, QString jsonFileName,
     QJsonArray framesArray = obj.value("frames").toArray();
     QJsonObject meta = obj.value("meta").toObject();
     QImage image(imageFileName);
-    for(auto i : framesArray)
+    this->ui->progressBar->setMaximum(framesArray.size());
+    for(int i = 0 ; i< framesArray.size() ; ++i)
     {
-        auto frameObj = i.toObject();
+        auto frameObj = framesArray[i].toObject();
         QString fileName = frameObj.value("filename").toString();
         qDebug().noquote()<<fileName;
         int x , y, w , h;
@@ -257,8 +278,23 @@ void MainWindow::convert(QString imageFileName, QString jsonFileName,
         QPoint bottomLeft(x,y+h);
         QPoint bottomRight(x+w,y+h);
         this->replaceExtrude(image,topLeft,topRight,bottomLeft,bottomRight,extrude);
+        this->ui->progressBar->setValue(i+1);
     }
-    image.save(imageOutputFileName);
+
+    // Save output
+    {
+        // TODO: Recorde the extrude value , because the meta not do it default
+        image.save(imageOutputFileName);
+        meta.insert("extrude",extrude);
+        obj.insert("meta",meta);
+
+        QFile outJsonFile(jsonOutputFileName);
+        outJsonFile.open(QFile::WriteOnly|QFile::Truncate);
+        QJsonDocument docOut(obj);
+        outJsonFile.write(docOut.toJson());
+        outJsonFile.close();
+    }
+    return 0;
 }
 
 void MainWindow::on_pushButton_convert_clicked()
