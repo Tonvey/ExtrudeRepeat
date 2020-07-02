@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLabel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,6 +27,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QLabel *statusLabel;
 
 private:
     void replaceExtrude(QImage &image,QPoint topLeft,QPoint topRight,QPoint bottomLeft,QPoint bottomRight,int extrude);

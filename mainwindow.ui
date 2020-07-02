@@ -116,7 +116,7 @@
        <item>
         <widget class="QPushButton" name="pushButton_convert">
          <property name="text">
-          <string>转换</string>
+          <string>Convert</string>
          </property>
         </widget>
        </item>
