@@ -73,16 +73,35 @@ void MainWindow::setJsonFilePath(const QString &path)
     this->ui->lineEdit_json->setText(path);
 }
 
+static void fillImage(QImage &image , QPoint refOffset , QPoint offset,int stepX,int stepY)
+{
+    if(image.format()==QImage::Format_Indexed8)
+    {
+        int idx = image.pixelIndex(
+                    stepX + refOffset.x(),
+                    stepY + refOffset.y());
+        image.setPixel(
+                    stepX + offset.x(),
+                    stepY + offset.y(),
+                    idx);
+    }
+    else
+    {
+        QColor color = image.pixelColor(
+                    stepX + refOffset.x(),
+                    stepY + refOffset.y());
+        image.setPixelColor(
+                    stepX + offset.x(),
+                    stepY + offset.y(),
+                    color);
+    }
+}
+
 void MainWindow::replaceExtrude(QImage &image,QPoint topLeft,
                                 QPoint topRight,QPoint bottomLeft,
                                 QPoint bottomRight,int extrude)
 {
 
-    bool isPalettedImage = false;
-    if(image.format()==QImage::Format_Indexed8)
-    {
-        isPalettedImage = true;
-    }
     int w = topRight.x() - topLeft.x();
     int h = bottomRight.y() - topRight.y();
     //Base on the 5th zone (numpad) to extrude repeat
@@ -97,26 +116,7 @@ void MainWindow::replaceExtrude(QImage &image,QPoint topLeft,
     {
         for(int stepY = 0 ; stepY < extrude ; ++stepY)
         {
-            if(isPalettedImage)
-            {
-                int idx = image.pixelIndex(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixel(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            idx);
-            }
-            else
-            {
-                QColor color = image.pixelColor(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixelColor(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            color);
-            }
+            fillImage(image,offset,refOffset,stepX,stepY);
         }
     }
     //zone4
@@ -126,26 +126,7 @@ void MainWindow::replaceExtrude(QImage &image,QPoint topLeft,
     {
         for(int stepY = 0 ; stepY < h ; ++stepY)
         {
-            if(isPalettedImage)
-            {
-                int idx = image.pixelIndex(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixel(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            idx);
-            }
-            else
-            {
-                QColor color = image.pixelColor(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixelColor(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            color);
-            }
+            fillImage(image,offset,refOffset,stepX,stepY);
         }
     }
     //zone6
@@ -155,26 +136,7 @@ void MainWindow::replaceExtrude(QImage &image,QPoint topLeft,
     {
         for(int stepY = 0 ; stepY < h ; ++stepY)
         {
-            if(isPalettedImage)
-            {
-                int idx = image.pixelIndex(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixel(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            idx);
-            }
-            else
-            {
-                QColor color = image.pixelColor(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixelColor(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            color);
-            }
+            fillImage(image,offset,refOffset,stepX,stepY);
         }
     }
     //zone8
@@ -184,26 +146,7 @@ void MainWindow::replaceExtrude(QImage &image,QPoint topLeft,
     {
         for(int stepY = -1 ; stepY >= -extrude ; --stepY)
         {
-            if(isPalettedImage)
-            {
-                int idx = image.pixelIndex(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixel(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            idx);
-            }
-            else
-            {
-                QColor color = image.pixelColor(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixelColor(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            color);
-            }
+            fillImage(image,offset,refOffset,stepX,stepY);
         }
     }
     //zone1
@@ -213,26 +156,7 @@ void MainWindow::replaceExtrude(QImage &image,QPoint topLeft,
     {
         for(int stepY = 0 ; stepY < extrude ; ++stepY)
         {
-            if(isPalettedImage)
-            {
-                int idx = image.pixelIndex(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixel(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            idx);
-            }
-            else
-            {
-                QColor color = image.pixelColor(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixelColor(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            color);
-            }
+            fillImage(image,offset,refOffset,stepX,stepY);
         }
     }
     //zone3
@@ -242,26 +166,7 @@ void MainWindow::replaceExtrude(QImage &image,QPoint topLeft,
     {
         for(int stepY = 0 ; stepY < extrude ; ++stepY)
         {
-            if(isPalettedImage)
-            {
-                int idx = image.pixelIndex(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixel(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            idx);
-            }
-            else
-            {
-                QColor color = image.pixelColor(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixelColor(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            color);
-            }
+            fillImage(image,offset,refOffset,stepX,stepY);
         }
     }
     //zone7
@@ -271,26 +176,7 @@ void MainWindow::replaceExtrude(QImage &image,QPoint topLeft,
     {
         for(int stepY = -1 ; stepY >= -extrude ; --stepY)
         {
-            if(isPalettedImage)
-            {
-                int idx = image.pixelIndex(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixel(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            idx);
-            }
-            else
-            {
-                QColor color = image.pixelColor(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixelColor(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            color);
-            }
+            fillImage(image,offset,refOffset,stepX,stepY);
         }
 
     }
@@ -301,26 +187,7 @@ void MainWindow::replaceExtrude(QImage &image,QPoint topLeft,
     {
         for(int stepY = -1 ; stepY >= -extrude ; --stepY)
         {
-            if(isPalettedImage)
-            {
-                int idx = image.pixelIndex(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixel(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            idx);
-            }
-            else
-            {
-                QColor color = image.pixelColor(
-                            stepX + refOffset.x(),
-                            stepY + refOffset.y());
-                image.setPixelColor(
-                            stepX + offset.x(),
-                            stepY + offset.y(),
-                            color);
-            }
+            fillImage(image,offset,refOffset,stepX,stepY);
         }
     }
 }
